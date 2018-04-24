@@ -2,14 +2,11 @@ package aufgabe2;
 
 import java.util.*;
 
-import aufgabe2.FileImport;
-import aufgabe2.Point;
-
 public class main {
 
 	public static void main(String[] args) {
 	FileImport fileReader = new FileImport();
-	Calculations calc = new Calculations();
+	CalculationsPolygon calc = new CalculationsPolygon();
 	List<State> list = fileReader.readFile("DeutschlandMitStaedten.svg");
 	Map<String,Double> areasOfStates = new HashMap<>();
 	double area = 0;

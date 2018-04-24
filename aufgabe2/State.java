@@ -2,11 +2,12 @@ package aufgabe2;
 
 import java.util.ArrayList;
 import java.util.List;
+import aufgabe1.Point;
 
 public class State {
 	
 	private String name;
-	private List<List<Point>> circles;
+	private List<List<aufgabe1.Point>> circles;
 	
 	
 	public State(String descriptor) {
