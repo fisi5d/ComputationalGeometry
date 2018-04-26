@@ -31,65 +31,71 @@ public class CalculationsPolygon {
     /**
      * This method checks if a point is inside of a given polygon by using the ray casting algorithm.
      * Works with closed polygons (convex, concave, with hole).
-     * @param state
+     * @param poly
      * @param point
      * @return
      */
-    public boolean containsPoint(State state, Point point){
+    public boolean polyContainsPoint(List<Point> poly, Point point){
         Calculations calcIntersection = new Calculations();
         double xMin = Double.MAX_VALUE,xMax = Double.MIN_VALUE,yMin = Double.MAX_VALUE,yMax=Double.MIN_VALUE;
         boolean insideBox = false;
         List<Integer> possiblePoly = new LinkedList<>();
         int countIntersections = 0;
-        Point endPointRay = point;
+        int countCollinear = 0;
+        Point endPointRay;
 
         //Create an axis aligned bounding box around the polygon, to safe unwanted calculations. If the point
         //is outside of the box it is definitely outside of the polygon and therefore safes
         //further intersection calculations
-        for(int i=0; i<state.getCircles().size(); i++){
-            for(int j=0; j<state.getCircles().get(i).size(); j++){
-                if(state.getCircles().get(i).get(j).getCoordX() < xMin)
-                    xMin = state.getCircles().get(i).get(j).getCoordX();
-                else if(state.getCircles().get(i).get(j).getCoordX() > xMax)
-                    xMax = state.getCircles().get(i).get(j).getCoordX();
+        for(int j=0; j<poly.size(); j++){
+            if(poly.get(j).getCoordX() < xMin)
+                xMin = poly.get(j).getCoordX();
+            else if(poly.get(j).getCoordX() > xMax)
+                xMax = poly.get(j).getCoordX();
 
-                if(state.getCircles().get(i).get(j).getCoordY() < yMin)
-                    xMin = state.getCircles().get(i).get(j).getCoordX();
-                else if(state.getCircles().get(i).get(j).getCoordY() > yMax)
-                    xMax = state.getCircles().get(i).get(j).getCoordX();
-            }
-            if (point.getCoordX() < xMin || point.getCoordX() > xMax || point.getCoordY() < yMin || point.getCoordY() > yMax) {
-                // Definitely not within the polygon!
-            }
-            else{
-                // Possible within the polygon n. Safes the polygon number to speed up further calculations
-                insideBox = true;
-                possiblePoly.add(i);
-            }
+            if(poly.get(j).getCoordY() < yMin)
+                yMin = poly.get(j).getCoordY();
+            else if(poly.get(j).getCoordY() > yMax)
+                yMax = poly.get(j).getCoordY();
         }
-        if(!insideBox) {
-            //Point is definitely not within any polygon, end here!
+        if (point.getCoordX() < xMin || point.getCoordX() > xMax || point.getCoordY() < yMin || point.getCoordY() > yMax) {
+            // Definitely not within the polygon!
             return false;
         }
 
-        endPointRay.setCoordX(xMin -5);
-        endPointRay.setCoordY(yMin -5);
+        //This endpoint is definitely outside of the polygon (different offsets -> not going trough corner
+        endPointRay = new Point(xMin-5,yMin-2);
         //Using the intersection counting method (ray casting)
-        for(int i=0; i<possiblePoly.size(); i++){
-            for(int sides=0; sides < state.getCircles().get(possiblePoly.get(i)).size(); sides = sides + 2) {
-                if(calcIntersection.intersectingWithCCW(point, endPointRay,state.getCircles().get(possiblePoly.get(i)).get(sides), state.getCircles().get(possiblePoly.get(i)).get(sides+1))){
-                    countIntersections++;
+        //EXCEPTIONS (COLLINEAR) NOT INCLUDET!!!!
+        int colPoint = 0;
+        int lr = 0;
+        int lrNew = 0;
+        for(int i=0; i<poly.size(); i++){
+            lr = calcIntersection.crossProduct(endPointRay,point,poly.get(colPoint));
+            if(lr == 0){
+                colPoint++;
+            }
+            else{
+                break;
+            }
+        }
+        for(int j=colPoint+1; j<poly.size(); j++){
+            lrNew = calcIntersection.crossProduct(endPointRay,point,poly.get(j));
+            if(Math.abs(lrNew-lr) == 2){
+                lr = lrNew;
+                if(calcIntersection.crossProduct(poly.get(j-1),poly.get(j),endPointRay) * calcIntersection.crossProduct(poly.get(j-1),poly.get(j),point) <= 0){
+                    countIntersections++; //Point and Endpoint are on different sides of polyline
                 }
             }
-            if(countIntersections%2 == 0){
+        }
+        if(countIntersections%2 == 0){
                 //count intersection is even and therefore OUTSIDE!
             }
             else{
                 //count intersection is odd and therefore INSIDE!
                 return true;
             }
-        }
 
-    return false;
+        return false;
     }
 }

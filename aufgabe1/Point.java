@@ -5,7 +5,7 @@ public class Point {
 	private double coordX;
 	private double coordY;
 
-	Point(double x, double y) {
+	public Point(double x, double y) {
 		setCoordX(x);
 		setCoordY(y);
 	}

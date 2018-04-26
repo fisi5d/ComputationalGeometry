@@ -12,7 +12,7 @@ public class Calculations {
      * @param c Point C
      * @return -1 if counterclockwise, +1 if clockwise and 0 if collinear
      */
-    private int crossProduct(Point a, Point b, Point c){
+    public int crossProduct(Point a, Point b, Point c){
         // (aX*bY - aY*bX) + (aY*cx - aX*cY) + (bX*cY - cX*bY)
         /*
         double det = (a.getCoordX()*b.getCoordY() - a.getCoordY()*b.getCoordX()) +
