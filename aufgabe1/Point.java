@@ -1,13 +1,13 @@
-package aufgabe1;
+package aufgabe;
 
 public class Point {
 	
 	private double coordX;
-	private double ccordY;
+	private double coordY;
 
 	Point(double x, double y) {
 		setCoordX(x);
-		setCcordY(y);
+		setCoordY(y);
 	}
 
 	public double getCoordX() {
@@ -16,11 +16,11 @@ public class Point {
 	public void setCoordX(double coordX) {
 		this.coordX = coordX;
 	}
-	public double getCcordY() {
-		return ccordY;
+	public double getCoordY() {
+		return coordY;
 	}
-	public void setCcordY(double ccordY) {
-		this.ccordY = ccordY;
+	public void setCoordY(double coordY) {
+		this.coordY = coordY;
 	}
 	
 	
