@@ -1,4 +1,4 @@
-package aufgabe2;
+package aufgabe;
 
 public class Point {
 	
