@@ -22,20 +22,21 @@ public class main {
 			//Check for hole in the polygon.
 			//If one point in the polygon is inside of the first (main) (assumption) polygon, then subtract, otherwise add
 			if(j != 0) {
-				if (calc.polyContainsPoint(list.get(i).getCircles().get(0), new Point(list.get(i).getCircles().get(j).get(0).getCoordX(), list.get(i).getCircles().get(j).get(0).getCoordY()))) {
-					area -= calc.calcPolygonArea(list.get(i).getCircles().get(j));
+				if (calc.polyContainsPoint(list.get(i).getCircles().get(0), new Point(list.get(i).getCircles().get(j).getPoints().get(0).getCoordX(), list.get(i).getCircles().get(j).getPoints().get(0).getCoordY()))) {
+					area -= calc.calcPolygonArea(list.get(i).getCircles().get(j).getPoints());
 					listPolyInsidePoly.add(j);
 				} else {
-					area += calc.calcPolygonArea(list.get(i).getCircles().get(j));
+					area += calc.calcPolygonArea(list.get(i).getCircles().get(j).getPoints());
 				}
 			}
 			else{
-				area = calc.calcPolygonArea(list.get(i).getCircles().get(j));
+				area = calc.calcPolygonArea(list.get(i).getCircles().get(j).getPoints());
 			}
 		}
+
 		for(int j=0; j<listPolyInsidePoly.size(); j++){
 			//tought of adding the inner poly to to outer poly. Works fine, but then there is one line segment crossing.
-			list.get(i).addPointsToCircle(0,list.get(i).getCircles().get(listPolyInsidePoly.get(j)));
+			list.get(i).getCircles().get(0).setPointsHole(list.get(i).getCircles().get(listPolyInsidePoly.get(j)).getPoints());
 			list.get(i).deleteCircle(listPolyInsidePoly.get(j-j));
 		}
 		listPolyInsidePoly.clear();
@@ -46,7 +47,7 @@ public class main {
 	System.out.println(entriesSortedByValues(areasOfStates));
 	System.out.println();
 		//System.out.println(list.get(7).getName());
-		draw = new DrawPolygon(list.get(7).getCircles());
+		draw = new DrawPolygon(list.get(7).getCircles().get(0).getPoints());
 		//System.out.println(calc.containsPoint(list.get(14), cities.get(0).getCoordinate()));
 		//System.out.println(list.get(14).getName() + " " + cities.get(0).getName());
 

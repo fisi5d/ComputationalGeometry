@@ -32,7 +32,7 @@ public class FileImport {
 		    		//br.readLine(); 						// brauch ich M???; wird aktuell ignoriert, wegen redundanz.
 		    		line = br.readLine();
 		    		while(!line.equals("\"/>")) {
-		    			state.addCircle(createCircle(br, line));
+		    			state.addCircle(new Polygon(createCircle(br, line)));
 		    			line = br.readLine();
 		    		}
 		    		//System.out.println("Finished reading State "+ state.getName());
