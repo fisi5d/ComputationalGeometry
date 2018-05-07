@@ -1,5 +1,7 @@
 package aufgabe1;
 
+import aufgabe3.LineSegment;
+
 public class Calculations {
 
     /**
@@ -71,6 +73,24 @@ public class Calculations {
         }
 
         return true;
+    }
+
+    /**
+     * Checking if two line segments (represented by P1P2 and Q1Q2) having an intersection by using the product of the
+     * cross product.
+     * Also includes the special case of "touching" lines (one ore more similar points), which count as intersection
+     * as well.
+     * @param a Linesegment P1P2
+     * @param b Point Q1Q2
+     * @return true if intersection
+     */
+    public boolean intersectingWithCCW(LineSegment a, LineSegment b){
+        Point p1 = a.getStartPoint();
+        Point p2 = a.getEndPoint();
+        Point q1 = b.getStartPoint();
+        Point q2 = b.getEndPoint();
+
+        return intersectingWithCCW(p1, p2, q1, q2);
     }
 
     /**

@@ -28,6 +28,16 @@ public class Point {
 	}
 
 	@Override
+	public boolean equals(Object o){
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Point that = (Point) o;
+		return this.getCoordX() == that.getCoordX() && this.getCoordY() == that.getCoordY();
+	}
+
+	@Override
 	public String toString(){
 		return "(" + getCoordX() + ", " + getCoordY() +")";
 	}
