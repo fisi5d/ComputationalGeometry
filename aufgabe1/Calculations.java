@@ -2,6 +2,8 @@ package aufgabe1;
 
 import aufgabe3.LineSegment;
 
+import java.text.DecimalFormat;
+
 public class Calculations {
 
     /**
@@ -32,6 +34,10 @@ public class Calculations {
         else if(det < 0)
             return -1;
         return 0;
+    }
+
+    public double crossProduct(Point a, Point b){
+        return (a.getCoordX()*b.getCoordY()) - (a.getCoordY()*b.getCoordX());
     }
 
     /**
@@ -114,87 +120,63 @@ public class Calculations {
         return false;
     }
 
-
-
-
-
-
-
-    /*
-    public boolean intersectingWithoutMult(Point p1, Point p2, Point q1, Point q2){
-        int d1 = crossProduct(q1, q2, p1);
-        int d2 = crossProduct(q1, q2, p2);
-        int d3 = crossProduct(p1, p2, q1);
-        int d4 = crossProduct(p1, p2, q2);
-
-        if(((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) && ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0))){
-            return true;
-        }
-        else if(d1 == 0 && onSegment(q1, q2, p1))
-            return true;
-        else if(d2 == 0 && onSegment(q1, q2, p2))
-            return true;
-        else if(d3 == 0 && onSegment(p1, p2, q1))
-            return true;
-        else if(d4 == 0 && onSegment(p1, p2, q2))
-            return true;
-
-        return false;
-    }
-
-
     /**
      * Calculates the intersection point of two line segments (represented by P1P2 and Q1Q2) by solving the
      * linear equations.
      * Also includes the special case collinear.
-     * @param p1 Point P1
-     * @param p2 Point P2
-     * @param q1 Point Q1
-     * @param q2 Point Q2
-     * @return true if intersection point
+     * @param a Linesegment P1P2
+     * @param b Linesegment Q1Q2
+     * @return point if intersection point or null
      */
-   /* public boolean intersectingWithEquations(Point p1, Point p2, Point q1, Point q2){
-        // Line p1p2 represented as a1x + b1y = c1
-        double a1 = p2.getCoordY() - p1.getCoordY();
-        double b1 = p1.getCoordX() - p2.getCoordX();
-        double c1 = a1*(p1.getCoordX()) + b1*(p1.getCoordY());
+    public Point intersectingWithEquations(LineSegment a, LineSegment b){
 
-        // Line q1q2 represented as a2x + b2y = c2
-        double a2 = q2.getCoordY() - q1.getCoordY();
-        double b2 = q1.getCoordX() - q2.getCoordX();
-        double c2 = a2*(q1.getCoordX())+ b2*(q1.getCoordY());
+        if(intersectingWithCCW(a,b)){
+            Point p1 = a.getStartPoint();
+            Point p2 = a.getEndPoint();
+            Point q1 = b.getStartPoint();
+            Point q2 = b.getEndPoint();
 
-        double determinant = a1*b2 - a2*b1;
+            if((a.getStartPoint().equals(a.getEndPoint()) && (b.getStartPoint().equals(a.getStartPoint()) || b.getEndPoint().equals(a.getStartPoint())))){
+                //System.out.println(a.getStartPoint()+ " | "+ a.toString() + " -> " + b.toString());
+                return a.getStartPoint();
+            }
+            else if((b.getStartPoint().equals(b.getEndPoint()) && (a.getStartPoint().equals(b.getStartPoint()) || a.getEndPoint().equals(b.getStartPoint())))){
+               // System.out.println(b.getStartPoint()+ " | "+a.toString() + " -> " + b.toString());
+                return b.getStartPoint();
+            }
 
-        if (determinant == 0)
-        {
-            //Lines are collinear and therefore possibly more than one intersection.
-            //Need to check if one point is on the other line segment. Otherwise they are parallel.
-            if(onSegment(q1, q2, p1))
-                return true;
-            else if(onSegment(q1, q2, p2))
-                return true;
-            else if(onSegment(p1, p2, q1))
-                return true;
-            else if(onSegment(p1, p2, q2))
-                return true;
-            // The lines are parallel.
-            return false;
+            // Line p1p2 represented as a1x + b1y = c1
+            double a1 = p2.getCoordY() - p1.getCoordY();
+            double b1 = p1.getCoordX() - p2.getCoordX();
+            double c1 = a1*(p1.getCoordX()) + b1*(p1.getCoordY());
+
+            // Line q1q2 represented as a2x + b2y = c2
+            double a2 = q2.getCoordY() - q1.getCoordY();
+            double b2 = q1.getCoordX() - q2.getCoordX();
+            double c2 = a2*(q1.getCoordX())+ b2*(q1.getCoordY());
+
+            double determinant = a1*b2 - a2*b1;
+
+            if(determinant == 0){
+                //Collinear and/or parallel
+                //therefore no unique intersection point
+                return null;
+
+            }
+            else {
+
+                double x = (b2*c1 - b1*c2)/determinant;
+                double y = (a1*c2 - a2*c1)/determinant;
+                Point intersectionPoint = new Point(x,y);
+
+                if(onSegment(p1,p2,intersectionPoint) && onSegment(q1,q2,intersectionPoint)) {
+                   // System.out.println(intersectionPoint + " | "+a.toString() + " -> " + b.toString());
+                    return intersectionPoint;
+                }
+
+            }
         }
-        else
-        {
-            double x = (b2*c1 - b1*c2)/determinant;
-            double y = (a1*c2 - a2*c1)/determinant;
-            Point s = new Point(x,y);
-
-
-            //Check if point actually lies on both line segments
-            //x=function == 0
-            //y=function == 0
-            if(onSegment(p1,p2,s) && onSegment(q1,q2,s))
-                return true;
-        }
-        return false;
+        return null;
     }
-    */
+
 }
