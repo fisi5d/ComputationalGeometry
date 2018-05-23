@@ -6,10 +6,12 @@ public class LineSegment {
 
     private Point startPoint;
     private Point endPoint;
+    private final String name;
 
-    public LineSegment(Point startPoint, Point endPoint){
+    public LineSegment(Point startPoint, Point endPoint, String name){
         this.startPoint = startPoint;
         this.endPoint = endPoint;
+        this.name = name;
     }
 
     public Point getStartPoint() {
@@ -28,13 +30,27 @@ public class LineSegment {
         this.endPoint = endPoint;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public boolean equals(Object o){
-        if (this == o)
+        //LineSegment s = (LineSegment) o;
+        //System.out.println(this.getName() + " " + s.getName());
+        if (this == o) {
             return true;
-        if (o == null || getClass() != o.getClass())
+        }
+        if (o == null || getClass() != o.getClass()){
             return false;
+        }
+
         LineSegment that = (LineSegment) o;
-        return this.getStartPoint().equals(that.getStartPoint()) && this.getEndPoint().equals(that.getEndPoint());
+        return ((this.getStartPoint().equals(that.getStartPoint())) && (this.getEndPoint().equals(that.getEndPoint())) && (this.getName().equals(that.getName())));
+    }
+
+    @Override
+    public String toString(){
+        return getName() + ": " + getStartPoint() + "|" + getEndPoint();
     }
 }

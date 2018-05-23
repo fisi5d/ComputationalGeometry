@@ -34,7 +34,11 @@ public class Point {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Point that = (Point) o;
-		return this.getCoordX() == that.getCoordX() && this.getCoordY() == that.getCoordY();
+		double thisX = (long)(this.getCoordX() * 1e5) /1e5;
+		double thisY = (long)(this.getCoordY() * 1e5) /1e5;
+		double thatX = (long)(that.getCoordX() * 1e5) /1e5;
+		double thatY = (long)(that.getCoordY() * 1e5) /1e5;
+		return thisX == thatX && thisY == thatY;
 	}
 
 	@Override

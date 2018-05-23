@@ -158,15 +158,16 @@ public class Calculations {
             double determinant = a1*b2 - a2*b1;
 
             if(determinant == 0){
-                //Collinear and/or parallel
-                //therefore no unique intersection point
-                return null;
+                //Collinear/parallel on its self
+                //therefore no unique intersection point, so we choose start point
+                return a.getStartPoint();
 
             }
             else {
 
                 double x = (b2*c1 - b1*c2)/determinant;
                 double y = (a1*c2 - a2*c1)/determinant;
+
                 Point intersectionPoint = new Point(x,y);
 
                 if(onSegment(p1,p2,intersectionPoint) && onSegment(q1,q2,intersectionPoint)) {

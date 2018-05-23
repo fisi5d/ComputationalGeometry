@@ -1,5 +1,8 @@
 package aufgabe1;
 
+import aufgabe3.LineSegment;
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +23,12 @@ public class main {
 		FileImport fileReader = new FileImport();
 		Calculations calc = new Calculations();
 
-		String[] files = new String[3];
-		files[0] = "Strecken/s_1000_1.dat";
-		files[1] = "Strecken/s_10000_1.dat";
-		files[2] = "Strecken/s_100000_1.dat";
-
+		String[] files = new String[4];
+		files[0] = "Strecken/s_1000_10.dat";
+		files[1] = "Strecken/s_1000_1.dat";
+		files[2] = "Strecken/s_10000_1.dat";
+		files[3] = "Strecken/s_100000_1.dat";
+		System.out.println("Computational: Aufgabe 1");
 
 
 		for(int f = 0; f < files.length; f++){
@@ -38,7 +42,9 @@ public class main {
 			for(int i=0; i<listPoints.size(); i=i+2) {
 				for (int j = i + 2; j < listPoints.size(); j = j + 2) {
 					c++;
-					if (calc.intersectingWithCCW(listPoints.get(i), listPoints.get(i + 1), listPoints.get(j), listPoints.get(j + 1))) {
+					LineSegment seg1 = new LineSegment(listPoints.get(i), listPoints.get(i + 1), "1");
+					LineSegment seg2 = new LineSegment(listPoints.get(j), listPoints.get(j + 1), "2");
+					if (calc.intersectingWithEquations(seg1, seg2)!=null) {
 						counter = counter + 1;
 						//System.out.println(listPoints.get(i).toString() + listPoints.get(i + 1).toString() + " | " + listPoints.get(j).toString() + listPoints.get(j + 1).toString() + " -> " + i/2 + " " + j/2);
 						/*
