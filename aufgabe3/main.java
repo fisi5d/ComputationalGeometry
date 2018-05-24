@@ -4,10 +4,8 @@ import aufgabe1.FileImport;
 import aufgabe1.Point;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeSet;
 
 public class main {
 

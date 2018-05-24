@@ -2,7 +2,6 @@ package aufgabe3;
 
 import aufgabe1.Point;
 
-import java.util.TreeSet;
 
 public class Event {
 
@@ -66,6 +65,7 @@ public class Event {
     }
 
     public int compareTo(Event that){
+        //Cut at the 5th comma decimal for better results
         double thisX = (long)(this.point.getCoordX() * 1e5) /1e5;
         double thisY = (long)(this.point.getCoordY() * 1e5) /1e5;
         double thatX = (long)(that.point.getCoordX() * 1e5) /1e5;

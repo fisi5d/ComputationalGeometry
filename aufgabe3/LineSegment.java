@@ -36,8 +36,6 @@ public class LineSegment {
 
     @Override
     public boolean equals(Object o){
-        //LineSegment s = (LineSegment) o;
-        //System.out.println(this.getName() + " " + s.getName());
         if (this == o) {
             return true;
         }
@@ -46,6 +44,7 @@ public class LineSegment {
         }
 
         LineSegment that = (LineSegment) o;
+        //Compare start and endpoint as well as the name
         return ((this.getStartPoint().equals(that.getStartPoint())) && (this.getEndPoint().equals(that.getEndPoint())) && (this.getName().equals(that.getName())));
     }
 
