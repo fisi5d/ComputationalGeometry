@@ -21,8 +21,8 @@ public class main {
         fileNames[3] = "Strecken/s_100000_1.dat";
         System.out.println("Computational: Aufgabe 3");
 
-        //for(int f = 0; f < fileNames.length; f++) {
-            File file = new File(fileNames[0]);
+        for(int f = 0; f < fileNames.length; f++) {
+            File file = new File(fileNames[f]);
             listPoints = new LinkedList<>();
             listPoints = fileReader.readFile(file.getPath());
 
@@ -47,6 +47,9 @@ public class main {
 
             listPoints.add(new Point(50, 70));
             listPoints.add(new Point(75, 25));
+
+            listPoints.add(new Point(35, 55));
+            listPoints.add(new Point(35, 15));
 
 */
 /*
@@ -89,7 +92,7 @@ public class main {
                 //System.out.println(result.get(i).getSegment().toString() + " --->> " + result.get(i).getSegmentIntersection().toString());
             }
 
-        //}
+        }
     }
 }
 
